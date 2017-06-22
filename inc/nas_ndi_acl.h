@@ -53,6 +53,8 @@ typedef struct _ndi_acl_table {
     size_t                  filter_count;
     BASE_ACL_MATCH_TYPE_t  *filter_list;
     uint32_t                size;
+    size_t                  udf_grp_count;
+    ndi_obj_id_t            *udf_grp_id_list;
 } ndi_acl_table_t;
 
 /**
@@ -71,6 +73,7 @@ typedef enum {
     NDI_ACL_FILTER_U8,
     NDI_ACL_FILTER_OBJ_ID,
     NDI_ACL_FILTER_BOOL,
+    NDI_ACL_FILTER_U8LIST,
 } ndi_acl_filter_values_type_t;
 
 /**
@@ -107,6 +110,7 @@ typedef union {
         uint32_t                       u32;
         uint16_t                       u16;
         uint8_t                        u8;
+        ndi_byte_list_t                ndi_u8list;
 } ndi_acl_values_t;
 
 /**
@@ -137,6 +141,7 @@ typedef struct {
     union {
         ndi_acl_values_t            values;
     } mask;
+    uint8_t                         udf_seq_no;
 } ndi_acl_entry_filter_t;
 
 /**

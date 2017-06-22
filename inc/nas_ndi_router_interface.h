@@ -37,6 +37,8 @@ extern "C" {
 
 #define NDI_MAX_RIF_ATTR    10
 
+#define NDI_RIF_MIN_MTU        1514     /* Based on SAI MTU DFLT */
+
 /*
  * RIF ID type
  */

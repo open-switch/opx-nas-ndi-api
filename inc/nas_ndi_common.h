@@ -107,6 +107,11 @@ typedef struct _ndi_obj_id_list {
     ndi_obj_id_t*   list;
 } ndi_obj_id_list_t;
 
+typedef struct _ndi_byte_list {
+    size_t      byte_count;
+    uint8_t     *byte_list;
+} ndi_byte_list_t;
+
 /**
  * @class NDI PAcket Attribute
  */
@@ -115,6 +120,19 @@ typedef enum _ndi_packet_trap_id_t{
     NDI_PACKET_TRAP_ID_SAMPLEPACKET,
     NDI_PACKET_TRAP_ID_L3_MTU_ERROR
 }ndi_packet_trap_id_t;
+
+
+/**
+ * @class NDI packet transmit type
+ */
+typedef enum _ndi_packet_tx_type_t {
+    /** bypass switch ASIC processing pipeline,
+     * tx packet goes to the specified output port directly */
+    NDI_PACKET_TX_TYPE_PIPELINE_BYPASS,
+    /** tx packet goes to the switch ASIC processing pipeline to decide the output port */
+    NDI_PACKET_TX_TYPE_PIPELINE_LOOKUP
+}ndi_packet_tx_type_t;
+
 
 typedef struct _ndi_packet_attr{
 
@@ -130,6 +148,8 @@ typedef struct _ndi_packet_attr{
 /** Trap ID */
     ndi_packet_trap_id_t trap_id;
 
+/** packet transmit type. (MANDATORY_ON_SEND) */
+    ndi_packet_tx_type_t tx_type;
 } ndi_packet_attr_t;
 
 typedef struct _hwport_list_t {

@@ -98,6 +98,15 @@ bool hal_shell_cmd_add(const char *name,hal_shell_function fun,const char *descr
 void hal_shell_run_command(const char *str);
 
 /**
+ * This function call print out the internal port details for the NPU/SDK being used.
+ * This can vary on different platforms and the output will be captured into the HShell.
+ *
+ * @param npu_id the identifier of the npu.
+ * @param port_id the port number to be dumped.
+ */
+void nas_ndi_port_map_dump(npu_id_t npu_id,npu_port_t port_id);
+
+/**
  * @}
  */
 

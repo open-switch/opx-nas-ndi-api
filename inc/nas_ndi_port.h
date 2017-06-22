@@ -110,7 +110,63 @@ t_std_error ndi_port_mtu_get(npu_id_t npu_id, npu_port_t port_id, uint_t *mtu);
  */
 t_std_error ndi_port_mtu_set(npu_id_t npu_id, npu_port_t port_id, uint_t mtu);
 
-#define NDI_PORT_SUPPORTED_SPEED_MAX 7
+/**
+ * Get the port's EEE statistics.
+ * @param npu_id the npu id
+ * @param port_id the port id
+ * @param stats the array containing the stats
+ * @return STD_ERR_OK if successful otherwise an error code
+ */
+t_std_error ndi_port_eee_stats_get(npu_id_t npu_id, npu_port_t port_id,
+                                   uint64_t *stats);
+
+/**
+ * Clear the port's EEE statistics.
+ * @param npu_id the npu id
+ * @param port_id the port id
+ * @return STD_ERR_OK if successful otherwise an error code
+ */
+t_std_error ndi_port_clear_eee_stats(npu_id_t npu_id, npu_port_t port_id);
+
+/**
+ * Set the port's EEE state (enable or disable)
+ * @param npu_id the npu id
+ * @param port_id the port id
+ * @param state - enable or disable
+ * @return STD_ERR_OK if successful otherwise an error code
+ */
+t_std_error ndi_port_eee_set(npu_id_t npu_id, npu_port_t port_id, uint_t state);
+
+/**
+ * Get the port's EEE state (enabled or disabled)
+ * @param npu_id the npu id
+ * @param port_id the port id
+ * @param state - enabled or disabled
+ * @return STD_ERR_OK if successful otherwise an error code
+ */
+t_std_error ndi_port_eee_get(npu_id_t npu_id, npu_port_t port_id, uint_t *state);
+
+/**
+ * Get the port's EEE wake time
+ * @param npu_id the npu id
+ * @param port_id the port id
+ * @param wake_time - time to wake
+ * @return STD_ERR_OK if successful otherwise an error code
+ */
+t_std_error ndi_port_eee_get_wake_time(npu_id_t npu_id, npu_port_t port_id,
+                                       uint16_t *wake_time);
+
+/**
+ * Get the port's EEE wake time
+ * @param npu_id the npu id
+ * @param port_id the port id
+ * @param idle_time - time to enter idle state
+ * @return STD_ERR_OK if successful otherwise an error code
+ */
+t_std_error ndi_port_eee_get_idle_time(npu_id_t npu_id, npu_port_t port_id,
+                                       uint16_t *idle_time);
+
+ #define NDI_PORT_SUPPORTED_SPEED_MAX 7
 /**
  * This function gets supported port speed list from NPU.
  * @param npu_id npu id
@@ -140,6 +196,15 @@ t_std_error ndi_port_speed_set(npu_id_t npu_id, npu_port_t port_id,  BASE_IF_SPE
 t_std_error ndi_port_speed_get(npu_id_t npu_id, npu_port_t port_id, BASE_IF_SPEED_t *speed);
 
 /**
+ * This function gets port speed without checking port link status.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param speed port speed
+ * @return standard error
+ */
+t_std_error ndi_port_speed_get_nocheck(npu_id_t npu_id, npu_port_t port_id, BASE_IF_SPEED_t *speed);
+
+/**
  * This function sets physical media type in the NPU baesd on the QSFP/SFP plugged-in.
  * @param npu_id npu id
  * @param port_id port id
@@ -147,6 +212,15 @@ t_std_error ndi_port_speed_get(npu_id_t npu_id, npu_port_t port_id, BASE_IF_SPEE
  * @return standard error
  */
 t_std_error ndi_port_media_type_set(npu_id_t npu_id, npu_port_t port_id, PLATFORM_MEDIA_TYPE_t media);
+
+/**
+ * This function sets identification/Beacon led ON/OFF.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param state enable(true) or disable(false)
+ * @return standard error
+ */
+t_std_error ndi_port_identification_led_set(npu_id_t npu_id, npu_port_t port_id, bool state);
 
 /** This function updates port attribute to any of the three possible combinations of:
  *         untagged only
@@ -202,13 +276,42 @@ size_t ndi_max_npu_port_get(npu_id_t npu);
  */
 bool ndi_port_is_valid(npu_id_t npu_id, npu_port_t npu_port);
 
-/** function to get the list of hwport belonging to the ndi_port
+/** function to get first hwport in list belonging to the ndi_port
  * @param npu_id npu id
  * @param ndi_port npu port id
  * @param[out] hwport hw port belong to the ndi_port
  * @return standard error
  */
 t_std_error ndi_hwport_list_get(npu_id_t npu_id, npu_port_t ndi_port, uint32_t *hwport);
+
+/** function to get the list of hwport belonging to the ndi_port
+ * @param npu_id npu id
+ * @param ndi_port npu port id
+ * @param[out] hwport list of hwport hw port belong to the ndi_port
+ * @param[in/out] count number of hw port belong to the ndi_port
+ * @return standard error
+ */
+t_std_error ndi_hwport_list_get_list(npu_id_t npu_id, npu_port_t ndi_port,
+                                     uint32_t *hwport, size_t *count);
+
+/**  function to create physical port with specified speed and breakout mode *
+ * @param[in] npu_id npu id
+ * @param speed port speed
+ * @param[in] hwport_list list of hardware ports that will be included
+ * @param[in] len the length of the effeted port list
+ * @param[out] port_id_p created npu port id
+ * @return standard error
+ * */
+t_std_error ndi_phy_port_create(npu_id_t npu_id, BASE_IF_SPEED_t speed,
+                                uint32_t *hwport_list, size_t len,
+                                npu_port_t *port_id_p);
+
+/**  function to delete physical port with specified npu port id *
+ * @param[in] npu_id npu id
+ * @param[in] port_id npu port id
+ * @return standard error
+ * */
+t_std_error ndi_phy_port_delete(npu_id_t npu_id, npu_port_t port_id);
 
 /**  function for setting breakout mode for a ndi_port *
  * @param[in] npu_id npu id
@@ -360,6 +463,59 @@ t_std_error ndi_port_duplex_get(npu_id_t npu_id, npu_port_t port_id,
 t_std_error ndi_port_stats_clear(npu_id_t npu_id, npu_port_t port_id,
                                ndi_stat_id_t *ndi_stats_counter_ids,
                                size_t len);
+
+/**
+ * This function sets port FEC mode in the NPU.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param fec_mode: OFF/CL74-FC/CL91-RS/CL108-RS/AUTO
+ * @return standard error
+ */
+t_std_error ndi_port_fec_set(npu_id_t npu_id, npu_port_t port_id,
+        BASE_CMN_FEC_TYPE_t fec_mode);
+
+/**
+ * This function gets port's FEC mode from the NPU.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param fec_mode : OFF/CL74-FC/CL91-RS/CL108-RS
+ * @return standard error
+ */
+t_std_error ndi_port_fec_get(npu_id_t npu_id, npu_port_t port_id,
+                   BASE_CMN_FEC_TYPE_t *fec_mode);
+
+#define NDI_PORT_SUPPORTED_FEC_MAX 4
+/**
+ * This function gets supported FEC list from the NPU.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param fec_count number of supported FEC
+ * @param fec_list supported FEC mode list
+ * @return standard error
+ */
+t_std_error ndi_port_supported_fec_get(npu_id_t npu_id, npu_port_t port_id,
+        int *fec_count, BASE_CMN_FEC_TYPE_t *fec_list);
+
+/**
+ * This function sets port OUI in the NPU.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param oui
+ * @return standard error
+ */
+t_std_error ndi_port_oui_set(npu_id_t npu_id, npu_port_t port_id,
+                             uint32_t oui);
+
+/**
+ * This function gets port's OUI from the NPU.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param oui
+ * @return standard error
+ */
+t_std_error ndi_port_oui_get(npu_id_t npu_id, npu_port_t port_id,
+                             uint32_t *oui);
+
 /**
  *  \}
  */

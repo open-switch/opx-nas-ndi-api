@@ -25,6 +25,7 @@
 #include "std_error_codes.h"
 #include "ds_common_types.h"
 #include "nas_ndi_common.h"
+#include "saitypes.h"
 
 #include <stdbool.h>
 
@@ -142,6 +143,57 @@ t_std_error ndi_add_or_del_ports_to_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
 
 t_std_error ndi_set_vlan_learning(npu_id_t npu_id, hal_vlan_id_t vlan_id,
                                   bool learning_mode);
+
+/**
+ * @brief Add a sai port to Vlan
+ *
+ * @param npu_id - NPU ID
+ *
+ * @param vlan_id - Vlan ID where port is to be added.
+ *
+ * @param port_id - SAI port id
+ *
+ * @param istagged - true if member is tagged port
+ *                   false if member is untagged port
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_add_port_to_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
+        sai_object_id_t port_id, bool istagged);
+
+/**
+ * @brief Delete a sai port from Vlan
+ *
+ * @param npu_id - NPU ID
+ *
+ * @param vlan_id - Vlan ID where port is to be added.
+ *
+ * @param port_id - SAI port id
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_del_port_from_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
+        sai_object_id_t port_id);
+
+/**
+ * @brief Delete the VLAN members created by SAI in default VLAN
+ *
+ * @param npu_id - NPU ID
+ *
+ * @param npu_port - NPU Port (valid only in del_all is false)
+ *
+ * @param del_all - True if all members need to removed. False otherwise.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+t_std_error ndi_del_new_member_from_default_vlan(npu_id_t npu_id,
+        npu_port_t npu_port, bool del_all);
+
 #ifdef __cplusplus
 }
 #endif

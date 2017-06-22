@@ -39,7 +39,8 @@ extern "C" {
 #define NDI_MAX_ROUTE_ATTR    5
 #define NDI_MAX_NEXT_HOP_ATTR 4
 #define NDI_MAX_NEIGHBOR_ATTR 3
-#define NDI_MAX_GROUP_NEXT_HOP_ATTR 3
+#define NDI_MAX_GROUP_NEXT_HOP_ATTR (SAI_NEXT_HOP_GROUP_ATTR_END - SAI_NEXT_HOP_GROUP_ATTR_START)
+#define NDI_MAX_GROUP_NEXT_HOP_MEMBER_ATTR (SAI_NEXT_HOP_GROUP_MEMBER_ATTR_END - SAI_NEXT_HOP_GROUP_MEMBER_ATTR_START)
 
 /*
  * Next_hop Id type
@@ -102,6 +103,10 @@ typedef struct ndi_route_s {
     int                     lookup_class; /* Classification class ID. */
 } ndi_route_t;
 
+/* Set the below value in the state (ndi_neighbor_t) to ignore programming
+ * the neighbor in the host table, this is used for Ipv6 link local
+ * neighbor programming */
+#define NDI_NEIGHBOR_ENTRY_NO_HOST_ROUTE 0
 /*
  * L3 host Neighbor Structure for action handle.
  *

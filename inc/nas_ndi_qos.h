@@ -205,59 +205,68 @@ t_std_error ndi_qos_get_wred_profile(npu_id_t npu_id,
 
 
 
-/**
- * @brief Queue data structure used between NAS and NDI
- *
- */
-typedef struct ndi_qos_queue_attribute_t {
+typedef struct ndi_qos_queue_struct_t {
+    ndi_port_t        ndi_port;
     BASE_QOS_QUEUE_TYPE_t     type;
-    ndi_obj_id_t     wred_id;
-    ndi_obj_id_t     buffer_profile;
-    ndi_obj_id_t     scheduler_profile;
-} ndi_qos_queue_attribute_t;
+    uint8_t          queue_index;
+    ndi_obj_id_t     parent;
+    ndi_obj_id_t    wred_id;
+    ndi_obj_id_t    buffer_profile;
+    ndi_obj_id_t    scheduler_profile;
+} ndi_qos_queue_struct_t;
 
 
 /**
- * This function set queue attribute
- * @param ndi_port_id
- * @param ndi_queue_id
- * @param wred_id
+ * This function creates a Scheduler group ID in the NPU.
+ * @param npu id
+ * @param nas_attr_list based on the CPS API attribute enumeration values
+ * @param num_attr number of attributes in attr_list array
+ * @param p scheduler group structure to be modified
+ * @param[out] ndi_queue_id
  * @return standard error
  */
-t_std_error ndi_qos_set_queue_wred_id(ndi_port_t ndi_port_id,
-                                    ndi_obj_id_t queue_id,
-                                    ndi_obj_id_t  wred_id);
-/**
- * This function set queue attribute
- * @param ndi_port_id
- * @param ndi_queue_id
- * @param buffer_profile_id
- * @return standard error
- */
-t_std_error ndi_qos_set_queue_buffer_profile_id(ndi_port_t ndi_port_id,
-                                    ndi_obj_id_t queue_id,
-                                    ndi_obj_id_t buffer_profile_id);
-/**
- * This function set queue attribute
- * @param ndi_port_id
- * @param ndi_queue_id
- * @param scheudler_profile_id
- * @return standard error
- */
-t_std_error ndi_qos_set_queue_scheduler_profile_id(ndi_port_t ndi_port_id,
-                                    ndi_obj_id_t queue_id,
-                                    ndi_obj_id_t scheduler_profile_id);
+t_std_error ndi_qos_create_queue(npu_id_t npu_id,
+                                const nas_attr_id_t *nas_attr_list,
+                                uint_t num_attr,
+                                const ndi_qos_queue_struct_t *p,
+                                ndi_obj_id_t *ndi_queue_id);
+
+ /**
+  * This function sets the queue attributes in the NPU.
+  * @param npu id
+  * @param ndi_queue_id
+  * @param attr_id based on the CPS API attribute enumeration values
+  * @param p queue structure to be modified
+  * @return standard error
+  */
+t_std_error ndi_qos_set_queue_attr(npu_id_t npu_id,
+                                    ndi_obj_id_t ndi_queue_id,
+                                    BASE_QOS_QUEUE_t attr_id,
+                                    const ndi_qos_queue_struct_t *p);
 
 /**
- * This function gets all attributes of a queue
- * @param ndi_port_id
+ * This function deletes a queue in the NPU.
+ * @param npu_id npu id
  * @param ndi_queue_id
- * @param[out] info queue attributes info
- * return standard error
+ * @return standard error
  */
-t_std_error ndi_qos_get_queue_attribute(ndi_port_t ndi_port_id,
-                                    ndi_obj_id_t queue_id,
-                                    ndi_qos_queue_attribute_t * info);
+t_std_error ndi_qos_delete_queue(npu_id_t npu_id,
+                                    ndi_obj_id_t ndi_queue_id);
+
+/**
+ * This function get a queue from the NPU.
+ * @param npu id
+ * @param ndi_queue_id
+ * @param nas_attr_list based on the CPS API attribute enumeration values
+ * @param num_attr number of attributes in attr_list array
+ * @param[out] ndi_qos_queue_struct_t filled if success
+ * @return standard error
+ */
+t_std_error ndi_qos_get_queue(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_queue_id,
+                            const nas_attr_id_t *nas_attr_list,
+                            uint_t num_attr,
+                            ndi_qos_queue_struct_t *p);
 
 
 /**
@@ -407,13 +416,11 @@ t_std_error ndi_qos_get_scheduler_profile(npu_id_t npu_id,
 
 
 typedef struct ndi_qos_scheduler_group_struct{
-    /* Note: max_child is not supported by SAI although SAI-api has this attribute.
-     * NAS should not use this field unless SAI-API returns the correct value in future.
-     */
-    uint32_t        max_child;
+    uint8_t         max_child;
     ndi_port_t      ndi_port;
     uint32_t        level;
     ndi_obj_id_t    scheduler_profile_id;
+    ndi_obj_id_t    parent;
     uint32_t        child_count;
     ndi_obj_id_t    *child_list;
 } ndi_qos_scheduler_group_struct_t;
@@ -472,29 +479,6 @@ t_std_error ndi_qos_get_scheduler_group(npu_id_t npu_id,
                             ndi_qos_scheduler_group_struct_t *p);
 
 
-/**
- * This function adds a list of child node to a scheduler group
- * @param npu_id
- * @param ndi_scheduler_group_id
- * @param child_count number of childs in ndi_child_list
- * @param ndi_child_list list of the childs to be added
- */
-t_std_error ndi_qos_add_child_to_scheduler_group(npu_id_t npu_id,
-                            ndi_obj_id_t ndi_scheduler_group_id,
-                            uint32_t child_count,
-                            const ndi_obj_id_t *ndi_child_list);
-
-/**
- * This function deletes a list of child node to a scheduler group
- * @param npu_id
- * @param ndi_scheduler_group_id
- * @param child_count number of childs in ndi_child_list
- * @param ndi_child_list list of the childs to be deleted
- */
-t_std_error ndi_qos_delete_child_from_scheduler_group(npu_id_t npu_id,
-                            ndi_obj_id_t ndi_scheduler_group_id,
-                            uint32_t child_count,
-                            const ndi_obj_id_t *ndi_child_list);
 
 // The following default values should match the default SAI values
 #define NDI_DEFAULT_TRAFFIC_CLASS 0
@@ -821,10 +805,10 @@ t_std_error ndi_qos_get_buffer_pool_stats(npu_id_t npu_id,
 
 
 typedef struct ndi_qos_buffer_profile_struct{
-    ndi_obj_id_t pool_id;         // pool id for the buffer profile
-    uint32_t buffer_size;     // reserved buffer size in bytes
+    ndi_obj_id_t pool_id;       // pool id for the buffer profile
+    uint32_t buffer_size;       // reserved buffer size in bytes
     uint32_t threshold_mode;    // buffer profile threshold to rewrite the pool threshold mode if set
-    uint32_t shared_dynamic_th; // dynamic threshold for the shared usage: 1/n of available buffer of the pool
+    uint8_t  shared_dynamic_th; // index to pre-defined Alpha value
     uint32_t shared_static_th;  // static threshold for the shared usage in bytes
     uint32_t xoff_th;   // XOFF threshold in bytes
     uint32_t xon_th;    // XON threshold in bytes

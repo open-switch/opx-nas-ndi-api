@@ -93,6 +93,7 @@ typedef enum {
     NDI_MAC_EVENT_LEARNED   = 1,    /* New MAC entry learned */
     NDI_MAC_EVENT_AGED,             /* MAC entry aged */
     NDI_MAC_EVENT_FLUSHED,          /* MAC entry removed */
+    NDI_MAC_EVENT_MOVED,            /* MAC entry moved */
     NDI_MAC_EVENT_INVALID
 } ndi_mac_event_type_t;
 
