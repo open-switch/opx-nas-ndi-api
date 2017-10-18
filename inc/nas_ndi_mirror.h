@@ -65,6 +65,9 @@ typedef struct {
     ndi_obj_id_t ndi_lag_id;                /* NDI LAG Id received as opaque data */
     bool is_dest_lag;                       /* flag to indicate destination is physical
                                                or lag interface in npu */
+    uint8_t ttl;                            /* ERSPAN Tunnel header ttl */
+    uint8_t dscp;                           /* ERSPAN Tunnel header dscp */
+    uint16_t gre_prot_type;                 /* ERSPAN gre protocol type */
 }ndi_mirror_entry_t;
 
 

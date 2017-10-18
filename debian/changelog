@@ -1,3 +1,21 @@
+opx-nas-ndi-api (6.6.0) unstable; urgency=medium
+
+  * Update: API to add and delete LAG from VLAN.
+  * Update: Add api to retrieve max number of scheduler group hierarchy level
+  * Update: Update port-buffer name
+  * Update: Separate stats from port buffer pool
+  * Update: Add per port per buffer pool WRED control, add WRED profile on buffer pool
+  * Update: Added new erpspan attrs
+  * Update: Moved newly added member to bottom of struct in order to avoid backward compability issue
+  * Update: Added table action list
+  * Update: Added new buffer control attributes
+  * Feature: Added support for ACL set packet color action
+  * Feature: Added ACL range configuration functions
+  * Bugfix: Miscellaneous bug fixes
+  * Cleanup: Miscellaneous cleanup
+
+ -- Dell EMC <ops-dev@lists.openswitch.net>  Fri, 29 Sep 2017 14:49:02 -0800
+
 opx-nas-ndi-api (5.5.0) unstable; urgency=medium
 
   * Update: Define NDI_RIF_MIN_MTU based on SAI MTU default for RIF

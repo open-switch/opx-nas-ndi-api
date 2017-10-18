@@ -130,6 +130,14 @@ t_std_error ndi_switch_get_queue_numbers(npu_id_t npu_id,
                         uint32_t *ucast_queues, uint32_t *mcast_queues,
                         uint32_t *total_queues, uint32_t *cpu_queues);
 
+/**
+ * @brief Retrieve HQoS tree levels
+ * @param npu_id - NPU id
+ * @param [out] max_level - max number of levels in HQoS hierarchy
+ */
+t_std_error ndi_switch_get_max_number_of_scheduler_group_level(npu_id_t npu_id,
+                        uint32_t *max_level);
+
 #ifdef __cplusplus
 }
 #endif

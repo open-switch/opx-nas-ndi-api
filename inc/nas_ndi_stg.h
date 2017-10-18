@@ -34,6 +34,8 @@ extern "C" {
 
 typedef ndi_obj_id_t ndi_stg_id_t;
 
+typedef ndi_obj_id_t ndi_lag_id_t;
+
 /** \defgroup NDIAPISTG NDI API - STG functionality
  *
  *  \{
@@ -122,6 +124,33 @@ t_std_error ndi_stg_get_default_id(npu_id_t npu_id,ndi_stg_id_t *stg_id,hal_vlan
  */
 t_std_error ndi_stg_set_all_stp_port_state(npu_id_t npu_id, ndi_stg_id_t stg_id,
                                                           BASE_STG_INTERFACE_STATE_t port_stp_state);
+
+/**
+ * @brief Set the STG state for lag in given STG id
+ *
+ * @param npu_id - NPU Id of STG instance
+ * @param stg_id - stg id of the instance
+ * @param lag_id - lag id for which stp port state needs to be set
+ * @param stg_state - stg state to be set
+ *
+ * @return STD_ERR_OK if successful, otherwise different error code
+ */
+t_std_error ndi_stg_set_stp_lag_state(npu_id_t npu_id,ndi_stg_id_t stg_id, ndi_lag_id_t lag_id,
+                                       BASE_STG_INTERFACE_STATE_t stg_state);
+
+/**
+ * @brief Get the STG state for lag in given STG id
+ *
+ * @param npu_id - NPU Id of STG instance
+ * @param stg_id - stg id of the instance
+ * @param lag_id - lag id for which stp port state needs to be retrieved
+ * @param[out] stg_state - returned stg state
+ *
+ * @return STD_ERR_OK if successful, otherwise different error code
+ */
+
+t_std_error ndi_stg_get_stp_lag_state(npu_id_t npu_id,ndi_stg_id_t stg_id, ndi_lag_id_t lag_id,
+                                       BASE_STG_INTERFACE_STATE_t * stg_state);
 
 /**
  *  \}

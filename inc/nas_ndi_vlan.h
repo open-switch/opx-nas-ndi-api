@@ -25,7 +25,6 @@
 #include "std_error_codes.h"
 #include "ds_common_types.h"
 #include "nas_ndi_common.h"
-#include "saitypes.h"
 
 #include <stdbool.h>
 
@@ -129,6 +128,51 @@ t_std_error ndi_add_or_del_ports_to_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
                                          bool add_vlan);
 
 /**
+ * @brief Add lag to vlan
+ *
+ * @param vlan_id - Vlan ID where lags are to be added.
+ *
+ * @param tagged_lag_list - List of tagged lags.
+ *
+ * @param tagged_lag_cnt- size of tagged_lag_list.
+ *
+ * @param untagged_lag_list- List of untagged lags.
+ *
+ * @untag_lag_cnt- size of untagged_lag_list.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+
+
+t_std_error ndi_add_lag_to_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
+                                           ndi_obj_id_t *tagged_lag_list, size_t  tagged_lag_cnt,
+                                           ndi_obj_id_t *untagged_lag_list ,size_t untag_lag_cnt);
+
+/**
+ * @brief Delete lag from vlan
+ *
+ * @param vlan_id - Vlan ID where lags are to be deleted.
+ *
+ * @param tagged_lag_list - List of tagged lags.
+ *
+ * @param tagged_lag_cnt- size of tagged_lag_list.
+ *
+ * @param untagged_lag_list- List of untagged lags.
+ *
+ * @untag_lag_cnt- size of untagged_lag_list.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_del_lag_from_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
+                                           ndi_obj_id_t *tagged_lag_list, size_t  tagged_lag_cnt,
+                                           ndi_obj_id_t *untagged_lag_list ,size_t untag_lag_cnt);
+
+
+/**
  * @brief Enable/Disable learning on a Vlan
  *
  * @param npu_id - NPU ID
@@ -144,40 +188,6 @@ t_std_error ndi_add_or_del_ports_to_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
 t_std_error ndi_set_vlan_learning(npu_id_t npu_id, hal_vlan_id_t vlan_id,
                                   bool learning_mode);
 
-/**
- * @brief Add a sai port to Vlan
- *
- * @param npu_id - NPU ID
- *
- * @param vlan_id - Vlan ID where port is to be added.
- *
- * @param port_id - SAI port id
- *
- * @param istagged - true if member is tagged port
- *                   false if member is untagged port
- *
- * @return STD_ERR_OK if operation is successful otherwise a different
- *  error code is returned.
- */
-
-t_std_error ndi_add_port_to_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
-        sai_object_id_t port_id, bool istagged);
-
-/**
- * @brief Delete a sai port from Vlan
- *
- * @param npu_id - NPU ID
- *
- * @param vlan_id - Vlan ID where port is to be added.
- *
- * @param port_id - SAI port id
- *
- * @return STD_ERR_OK if operation is successful otherwise a different
- *  error code is returned.
- */
-
-t_std_error ndi_del_port_from_vlan(npu_id_t npu_id, hal_vlan_id_t vlan_id,
-        sai_object_id_t port_id);
 
 /**
  * @brief Delete the VLAN members created by SAI in default VLAN

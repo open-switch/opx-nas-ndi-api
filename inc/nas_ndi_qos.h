@@ -149,7 +149,7 @@ typedef struct qos_wred_struct{
     uint_t  r_drop_prob;    // Red traffic drop probability when min-threshold is crossed
 
     uint_t  weight;            // Weight factor to calculate the average queue size based on historic average
-    bool    ecn_enable;        // ECN marking enabled/disabled
+    BASE_QOS_ECN_MARK_MODE_t ecn_mark;          // ECN marking mode
 }qos_wred_struct_t;
 
 
@@ -730,6 +730,8 @@ typedef struct qos_buffer_pool_struct{
     BASE_QOS_BUFFER_POOL_TYPE_t     type;     // buffer pool type: Ingress or Egress
     uint32_t size;             // total size of the buffer pool
     BASE_QOS_BUFFER_THRESHOLD_MODE_t threshold_mode; // shared threshold mode for the buffer pool
+    uint32_t xoff_size;        // shared headroom pool size in bytes for lossless traffic
+    ndi_obj_id_t wred_profile_id;  // WRED profile attached to the pool
 }qos_buffer_pool_struct_t;
 
 
@@ -812,6 +814,7 @@ typedef struct ndi_qos_buffer_profile_struct{
     uint32_t shared_static_th;  // static threshold for the shared usage in bytes
     uint32_t xoff_th;   // XOFF threshold in bytes
     uint32_t xon_th;    // XON threshold in bytes
+    uint32_t xon_offset_th; // XON hysteresis value
 }ndi_qos_buffer_profile_struct_t;
 
 
@@ -955,6 +958,108 @@ t_std_error ndi_qos_clear_priority_group_stats(ndi_port_t ndi_port_id,
                                 BASE_QOS_PRIORITY_GROUP_STAT_t *counter_ids,
                                 uint_t number_of_counters);
 
+
+typedef struct ndi_qos_port_pool_struct {
+    ndi_port_t      ndi_port;
+    ndi_obj_id_t    ndi_pool_id;
+    ndi_obj_id_t    wred_profile_id;
+
+} ndi_qos_port_pool_struct_t;
+
+/**
+ * This function creates a port_pool in the NPU.
+ * @param npu id
+ * @param nas_attr_list based on the CPS API attribute enumeration values
+ * @param num_attr number of attributes in attr_list array
+ * @param p port_pool structure to be modified
+ * @param[out] ndi_port_pool_id
+ * @return standard error
+ */
+t_std_error ndi_qos_create_port_pool(npu_id_t npu_id,
+                                const nas_attr_id_t *nas_attr_list,
+                                uint_t num_attr,
+                                const ndi_qos_port_pool_struct_t *p,
+                                ndi_obj_id_t *ndi_port_pool_id);
+
+ /**
+  * This function sets the port_pool attributes in the NPU.
+  * @param npu id
+  * @param ndi_port_pool_id
+  * @param attr_id based on the CPS API attribute enumeration values
+  * @param p port_pool structure to be modified
+  * @return standard error
+  */
+t_std_error ndi_qos_set_port_pool_attr(npu_id_t npu_id,
+                                ndi_obj_id_t ndi_port_pool_id,
+                                BASE_QOS_PORT_POOL_t attr_id,
+                                const ndi_qos_port_pool_struct_t *p);
+
+/**
+ * This function deletes a port_pool in the NPU.
+ * @param npu id
+ * @param ndi_port_pool_id
+ * @return standard error
+ */
+t_std_error ndi_qos_delete_port_pool(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_port_pool_id);
+
+/**
+ * This function get a port_pool from the NPU.
+ * @param npu id
+ * @param ndi_port_pool_id
+ * @param nas_attr_list based on the CPS API attribute enumeration values
+ * @param num_attr number of attributes in attr_list array
+ * @param[out] qos_port_pool_struct_t filled if success
+ * @return standard error
+ */
+t_std_error ndi_qos_get_port_pool(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_port_pool_id,
+                            const nas_attr_id_t *nas_attr_list,
+                            uint_t num_attr,
+                            ndi_qos_port_pool_struct_t *p);
+
+typedef struct nas_qos_port_pool_stat_counter_t {
+    uint64_t green_discard_dropped_packets;
+    uint64_t green_discard_dropped_bytes;
+    uint64_t yellow_discard_dropped_packets;
+    uint64_t yellow_discard_dropped_bytes;
+    uint64_t red_discard_dropped_packets;
+    uint64_t red_discard_dropped_bytes;
+    uint64_t discard_dropped_packets;
+    uint64_t discard_dropped_bytes;
+    uint64_t current_occupancy_bytes;
+    uint64_t watermark_bytes;
+    uint64_t shared_current_occupancy_bytes;
+    uint64_t shared_watermark_bytes;
+} nas_qos_port_pool_stat_counter_t;
+
+/**
+ * This function gets the queue statistics
+ * @param npu_id
+ * @param ndi_port_pool_id
+ * @param list of port_pool counter types to query
+ * @param number of port_pool counter types specified
+ * @param[out] counter stats
+ * return standard error
+ */
+t_std_error ndi_qos_get_port_pool_stats(ndi_port_t ndi_port,
+                                ndi_obj_id_t ndi_port_pool_id,
+                                BASE_QOS_PORT_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                nas_qos_port_pool_stat_counter_t *stats);
+
+/**
+ * This function clears the port_pool statistics
+ * @param npu_id
+ * @param ndi_port_pool_id
+ * @param list of port_pool counter types to clear
+ * @param number of port_pool counter types specified
+ * return standard error
+ */
+t_std_error ndi_qos_clear_port_pool_stats(ndi_port_t ndi_port,
+                                ndi_obj_id_t ndi_port_pool_id,
+                                BASE_QOS_PORT_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters);
 
 
 /**
