@@ -289,6 +289,20 @@ uint_t ndi_qos_get_queue_id_list(ndi_port_t ndi_port_id,
                                 uint_t count,
                                 ndi_obj_id_t *ndi_queue_id_list);
 
+/**
+ * This function gets the list of shadow queue object on different MMUs
+ * @param npu_id
+ * @param ndi_queue_id
+ * @param count, size of the ndi_shadow_q_list[]
+ * @param[out] ndi_shadow_q_list[] will be filled
+ * @Return The total number of shadow queue objects on different MMUs.
+ *         If the count is smaller than the actual number of shadow queue
+ *         objects, ndi_shadow_q_list[] will not be filled.
+ */
+uint_t ndi_qos_get_shadow_queue_list(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_queue_id,
+                            uint_t count,
+                            ndi_obj_id_t * ndi_shadow_q_list);
 
 typedef struct nas_qos_queue_stat_counter_t {
     uint64_t packets;
@@ -335,6 +349,20 @@ t_std_error ndi_qos_get_queue_stats(ndi_port_t ndi_port_id,
                                 BASE_QOS_QUEUE_STAT_t *counter_ids,
                                 uint_t number_of_counters,
                                 nas_qos_queue_stat_counter_t *stats);
+/**
+ * This function gets the queue statistics
+ * @param ndi_port_id
+ * @param ndi_queue_id
+ * @param list of queue counter types to query
+ * @param number of queue counter types specified
+ * @param[out] counters: stats will be stored in the same order of the counter_ids
+  * return standard error
+ */
+t_std_error ndi_qos_get_queue_statistics(ndi_port_t ndi_port_id,
+                                ndi_obj_id_t ndi_queue_id,
+                                BASE_QOS_QUEUE_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t *counters);
 
 /**
  * This function clears the queue statistics
@@ -665,7 +693,7 @@ typedef struct qos_port_egr_struct {
     uint_t                  num_mcast_queue;
     uint_t                  num_queue;
     uint_t                  num_queue_id;
-    nas_obj_id_t            * queue_id_list;
+    ndi_obj_id_t            * queue_id_list;
     ndi_obj_id_t            tc_to_queue_map;
     ndi_obj_id_t            tc_to_dot1p_map;
     ndi_obj_id_t            tc_to_dscp_map;
@@ -784,6 +812,21 @@ t_std_error ndi_qos_get_buffer_pool(npu_id_t npu_id,
                             uint_t num_attr,
                             qos_buffer_pool_struct_t *p);
 
+/**
+ * This function gets the list of shadow buffer_pool object on different MMUs
+ * @param npu_id
+ * @param ndi_buffer_pool_id
+ * @param count, size of ndi_shadow_pool_list[]
+ * @param[out] ndi_shadow_pool_list[] will be filled if successful
+ * @Return The total number of shadow buffer_pool objects on different MMUs.
+ *         If the count is smaller than the actual number of shadow buffer_pool
+ *         objects, ndi_shadow_pool_list[] will not be filled.
+ */
+uint_t ndi_qos_get_shadow_buffer_pool_list(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_buffer_pool_id,
+                            uint_t count,
+                            ndi_obj_id_t * ndi_shadow_pool_list);
+
 typedef struct nas_qos_buffer_pool_stat_counter_t {
     uint64_t current_occupancy_bytes;
     uint64_t watermark_bytes;
@@ -804,6 +847,33 @@ t_std_error ndi_qos_get_buffer_pool_stats(npu_id_t npu_id,
                                 uint_t number_of_counters,
                                 nas_qos_buffer_pool_stat_counter_t *stats);
 
+/**
+ * This function gets the buffer_pool statistics (New API)
+ * @param npu_id
+ * @param ndi_buffer_pool_id
+ * @param list of buffer_pool counter types to query
+ * @param number of buffer_pool counter types specified
+ * @param[out] counter stats will be in the same order of the counter_ids.
+ * return standard error
+ */
+t_std_error ndi_qos_get_buffer_pool_statistics(npu_id_t npu_id,
+                                ndi_obj_id_t ndi_buffer_pool_id,
+                                BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t *stats);
+
+/**
+ * This function clears the buffer_pool statistics
+ * @param npu_id
+ * @param ndi_buffer_pool_id
+ * @param list of buffer_pool counter types to clear
+ * @param number of buffer_pool counter types specified
+ * return standard error
+ */
+t_std_error ndi_qos_clear_buffer_pool_stats(npu_id_t npu_id,
+                                ndi_obj_id_t ndi_buffer_pool_id,
+                                BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters);
 
 
 typedef struct ndi_qos_buffer_profile_struct{
@@ -918,6 +988,20 @@ uint_t ndi_qos_get_priority_group_id_list(ndi_port_t ndi_port_id,
                                 uint_t count,
                                 ndi_obj_id_t *ndi_pg_id_list);
 
+/**
+ * This function gets the list of shadow priority group object on different MMUs
+ * @param npu_id
+ * @param ndi_pg_id
+ * @param count, size of ndi_shadow_pg_list[]
+ * @param[out] ndi_shadow_pg_list[] will be filled if successful
+ * @Return The total number of shadow pg objects on different MMUs.
+ *         If the count is smaller than the actual number of shadow pg
+ *         objects, ndi_shadow_pg_list[] will not be filled.
+ */
+uint_t ndi_qos_get_shadow_priority_group_list(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_pg_id,
+                            uint_t count,
+                            ndi_obj_id_t * ndi_shadow_pg_list);
 
 typedef struct nas_qos_priority_group_stat_counter_t {
     uint64_t packets;
@@ -1034,7 +1118,7 @@ typedef struct nas_qos_port_pool_stat_counter_t {
 } nas_qos_port_pool_stat_counter_t;
 
 /**
- * This function gets the queue statistics
+ * This function gets the port pool statistics
  * @param npu_id
  * @param ndi_port_pool_id
  * @param list of port_pool counter types to query
@@ -1047,6 +1131,20 @@ t_std_error ndi_qos_get_port_pool_stats(ndi_port_t ndi_port,
                                 BASE_QOS_PORT_POOL_STAT_t *counter_ids,
                                 uint_t number_of_counters,
                                 nas_qos_port_pool_stat_counter_t *stats);
+/**
+ * This function gets the port pool statistics
+ * @param npu_id
+ * @param ndi_port_pool_id
+ * @param list of port_pool counter types to query
+ * @param number of port_pool counter types specified
+ * @param[out] counter: stats are filled in the same order of the counter_ids
+ * return standard error
+ */
+t_std_error ndi_qos_get_port_pool_statistics(ndi_port_t ndi_port,
+                                ndi_obj_id_t ndi_port_pool_id,
+                                BASE_QOS_PORT_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t * counters);
 
 /**
  * This function clears the port_pool statistics

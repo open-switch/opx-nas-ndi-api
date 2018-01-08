@@ -23,6 +23,7 @@
 #define NAS_NDI_LAG_H_
 
 #include "std_error_codes.h"
+#include "dell-base-interface-common.h"
 #include "ds_common_types.h"
 #include "nas_ndi_common.h"
 
@@ -127,6 +128,25 @@ t_std_error ndi_set_lag_member_attr(npu_id_t npu_id, ndi_obj_id_t ndi_lag_member
  */
 t_std_error ndi_get_lag_member_attr(npu_id_t npu_id, ndi_obj_id_t ndi_lag_member_id,
                 bool *egress_disable);
+
+/** This function sets the default pvid for lag
+ *  Set it when the port is untagged .
+ * @param npu_id npu id
+ * @param lag_id Lag ID
+ * @vlan_id Vlan ID
+ * @return standard error
+ */
+
+t_std_error ndi_set_lag_pvid(npu_id_t npu_id, ndi_obj_id_t lag_id,
+                             hal_vlan_id_t vlan_id);
+
+/** This function sets the mac learn mode for lag
+ * @param npu_id npu id
+ * @param mode MAC Learn Mode
+ * @return standard error
+ */
+t_std_error ndi_set_lag_learn_mode(npu_id_t npu_id, ndi_obj_id_t ndi_lag_id,
+        BASE_IF_MAC_LEARN_MODE_t mode);
 
 /**
 @}

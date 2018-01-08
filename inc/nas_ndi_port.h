@@ -214,6 +214,15 @@ t_std_error ndi_port_speed_get_nocheck(npu_id_t npu_id, npu_port_t port_id, BASE
 t_std_error ndi_port_media_type_set(npu_id_t npu_id, npu_port_t port_id, PLATFORM_MEDIA_TYPE_t media);
 
 /**
+ * This function sets Hardware Profile ID in SAI.
+ * @param npu_id npu id
+ * @param port_id port id
+ * @param hw_profile hardware profile ID
+ * @return standard error
+ */
+t_std_error ndi_port_hw_profile_set(npu_id_t npu_id, npu_port_t port_id, uint64_t hw_profile);
+
+/**
  * This function sets identification/Beacon led ON/OFF.
  * @param npu_id npu id
  * @param port_id port id

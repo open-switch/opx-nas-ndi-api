@@ -1,3 +1,19 @@
+opx-nas-ndi-api (6.12.0) unstable; urgency=medium
+
+  * Update: Added buffer pool stat clearing capability
+  * Update: Added API to set mac learn mode for LAG
+  * Update: Added new api to query port-pool stats and queue stats
+  * Update: Added XPE support for priority group
+  * Update: Added XPE buffer pool
+  * Update: Added new api to query port-pool stats and queue stats
+  * Update: Added api to retrieve max number of scheduler group hierarchy level
+  * Update: Added api to set stg state for lag
+  * Update: Added API to add and delete LAG from VLAN
+  * Update: Added function to read both byte and packet counter value
+  * Update: Added API for LAG PVID setting
+
+ -- Dell EMC <ops-dev@lists.openswitch.net>  Tue, 12 Dec 2017 14:49:02 -0800
+
 opx-nas-ndi-api (6.6.0) unstable; urgency=medium
 
   * Update: API to add and delete LAG from VLAN.

@@ -417,6 +417,22 @@ t_std_error ndi_acl_counter_get_byte_count (npu_id_t npu_id,
                                             ndi_obj_id_t ndi_counter_id,
                                             uint64_t* byte_count_p);
 
+/**
+ * @brief Get byte and packet count for the counter
+ *
+ * @param npu_id - NPU ID in which to modify
+ * @param ndi_counter_id - NDI Counter ID of entry to be obtained.
+ * @param [out] byte_count - result in bytes.
+ * @param [out] pkt_count - result in packets.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+t_std_error ndi_acl_counter_get_count (npu_id_t npu_id,
+                                       ndi_obj_id_t ndi_counter_id,
+                                       uint64_t* byte_count_p,
+                                       uint64_t* pkt_count_p);
+
 typedef enum {
     NDI_ACL_RANGE_L4_SRC_PORT,
     NDI_ACL_RANGE_L4_DST_PORT,
