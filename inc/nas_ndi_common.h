@@ -157,6 +157,15 @@ typedef struct _hwport_list_t {
     uint32_t *list;
 } hwport_list_t;
 
+
+typedef struct nas_attribute_t {
+    nas_attr_id_t    id;
+    void *data;
+    size_t len;
+} nas_attribute_t;
+
+
+
 /** callback functions */
 
 /**

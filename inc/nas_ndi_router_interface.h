@@ -67,6 +67,7 @@ typedef enum {
     NDI_RIF_ATTR_ADMIN_V4_STATE  = (1 << 5), /* Admin V4 state (default TRUE) */
     NDI_RIF_ATTR_ADMIN_V6_STATE  = (1 << 6), /* Admin V6 state (default TRUE) */
     NDI_RIF_ATTR_MTU            = (1 << 7), /* MTU */
+    NDI_RIF_ATTR_IP_REDIRECT    = (1 << 8), /* IP redirect */
     NDI_RIF_ATTR_INVALID        = (1 << 31)
 } ndi_rif_flags;
 
@@ -95,6 +96,7 @@ typedef struct ndi_rif_entry_s {
     hal_mac_addr_t          src_mac;
     bool                    v4_admin_state;
     bool                    v6_admin_state;
+    bool                    ip_redirect_state;
     uint_t                  mtu;
 } ndi_rif_entry_t;
 

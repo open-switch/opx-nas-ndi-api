@@ -309,6 +309,20 @@ t_std_error ndi_acl_entry_disable_action (npu_id_t npu_id,
                                           BASE_ACL_ACTION_TYPE_t action_id);
 
 /**
+ * @brief Disable Set_Counter Action in an existing ACL entry
+ *
+ * @param npu_id - NPU ID in which to modify
+ * @param ndi_entry_id - NDI Entry ID of entry to be modified.
+ * @param ndi_counter_id - NDI Counter ID of counter to be disabled.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+t_std_error ndi_acl_entry_disable_counter_action (npu_id_t npu_id,
+                                          ndi_obj_id_t ndi_entry_id,
+                                          ndi_obj_id_t ndi_counter_id);
+
+/**
  * @brief Create a new ACL counter in NPU
  *
  * @param npu_id - NPU ID in which to create
