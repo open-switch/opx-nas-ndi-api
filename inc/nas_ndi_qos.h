@@ -131,7 +131,7 @@ t_std_error ndi_qos_get_policer_stat(npu_id_t npu_id,
 
 
 
-
+// TO BE DEPRECATED
 typedef struct qos_wred_struct{
     bool    g_enable;        // WRED enabled/disabled on green traffic
     uint_t  g_min;            // WRED min threshold for green traffic
@@ -153,6 +153,7 @@ typedef struct qos_wred_struct{
 }qos_wred_struct_t;
 
 
+// TO BE DEPRECATED
 /**
  * This function creates a WRED profile in the NPU.
  * @param npu id
@@ -168,6 +169,7 @@ t_std_error ndi_qos_create_wred_profile(npu_id_t npu_id,
                                 const qos_wred_struct_t *p,
                                 ndi_obj_id_t *ndi_wred_id);
 
+// TO BE DEPRECATED
  /**
   * This function sets the wred profile attributes in the NPU.
   * @param npu id
@@ -179,6 +181,7 @@ t_std_error ndi_qos_create_wred_profile(npu_id_t npu_id,
 t_std_error ndi_qos_set_wred_profile_attr(npu_id_t npu_id, ndi_obj_id_t ndi_wred_id,
                                   BASE_QOS_WRED_PROFILE_t attr_id, const qos_wred_struct_t *p);
 
+// TO BE DEPRECATED
 /**
  * This function deletes a wred profile in the NPU.
  * @param npu id
@@ -187,6 +190,7 @@ t_std_error ndi_qos_set_wred_profile_attr(npu_id_t npu_id, ndi_obj_id_t ndi_wred
  */
 t_std_error ndi_qos_delete_wred_profile(npu_id_t npu_id, ndi_obj_id_t ndi_wred_id);
 
+// TO BE DEPRECATED
 /**
  * This function get a wred profile from the NPU.
  * @param npu id
@@ -201,6 +205,51 @@ t_std_error ndi_qos_get_wred_profile(npu_id_t npu_id,
                             const nas_attr_id_t *nas_attr_list,
                             uint_t num_attr,
                             qos_wred_struct_t *p);
+
+/**
+ * This function creates a WRED profile in the NPU.
+ * @param npu id
+ * @param num_attr number of attributes in attr_list array
+ * @param nas_attr_list list of CPS API attribute IDs and values
+ * @param[out] ndi_wred_id
+ * @return standard error
+ */
+t_std_error ndi_qos_create_wred_ecn_profile(npu_id_t npu_id,
+                                uint_t num_attr,
+                                const nas_attribute_t * nas_attr_list,
+                                ndi_obj_id_t *ndi_wred_id);
+
+ /**
+  * This function sets the wred profile attributes in the NPU.
+  * @param npu id
+  * @param ndi_wred_id
+  * @param nas_attr attribute id and value
+  * @return standard error
+  */
+t_std_error ndi_qos_set_wred_ecn_profile_attr(npu_id_t npu_id,
+                                  ndi_obj_id_t ndi_wred_id,
+                                  nas_attribute_t nas_attr);
+
+/**
+ * This function deletes a wred profile in the NPU.
+ * @param npu id
+ * @param ndi_wred_id
+ * @return standard error
+ */
+t_std_error ndi_qos_delete_wred_ecn_profile(npu_id_t npu_id, ndi_obj_id_t ndi_wred_id);
+
+/**
+ * This function get a wred profile from the NPU.
+ * @param npu id
+ * @param ndi_wred_id
+ * @param num_attr number of attributes in attr_list array
+ * @param[in/out] nas_attr_list list of CPS API attribute IDs and values
+ * @return standard error. When successful, nas_attr_list is filled with values
+ */
+t_std_error ndi_qos_get_wred_ecn_profile(npu_id_t npu_id,
+                            ndi_obj_id_t ndi_wred_id,
+                            uint_t num_attr,
+                            nas_attribute_t * nas_attr_list);
 
 
 

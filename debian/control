@@ -9,6 +9,6 @@ Vcs-Git: https://github.com/open-switch/opx-nas-ndi-api.git
 
 Package: opx-ndi-api-dev
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}
 Description: This package contains NAS NDI API code
 

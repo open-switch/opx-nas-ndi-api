@@ -39,6 +39,14 @@ extern "C" {
  */
 
 /**
+ * Type of packets that would be discarded by NPU port
+ */
+typedef enum {
+    NDI_PORT_DROP_UNTAGGED,     /* Port will discard all untagged packets */
+    NDI_PORT_DROP_TAGGED        /* Port will discard all tagged packets */
+} ndi_port_drop_mode_t;
+
+/**
  * This function register port link state callback function with NDI.
  * @param reg_fn callback function for port link state notification
  * @return standard error
@@ -524,6 +532,37 @@ t_std_error ndi_port_oui_set(npu_id_t npu_id, npu_port_t port_id,
  */
 t_std_error ndi_port_oui_get(npu_id_t npu_id, npu_port_t port_id,
                              uint32_t *oui);
+
+/**
+ * This function is used to enable/disable packet drop mode
+ * for specific NPU port
+ * @param npu_id NPU ID
+ * @param port_id port ID
+ * @param mode packet drop mode
+ * @enable enable or disable packet drop mode
+ * @return standard error
+ */
+t_std_error ndi_port_set_packet_drop(npu_id_t npu_id, npu_port_t port_id,
+                                     ndi_port_drop_mode_t mode, bool enable);
+
+/**
+ * This function is used to get the VLAN Filter Type for specific NPU port
+ * @param npu_id NPU ID
+ * @param port_id port ID
+ * @param filter_type Configured VLAN Filter Type
+ * @return standard error
+ */
+t_std_error ndi_port_vlan_filter_get (npu_id_t npu_id, npu_port_t port_id,
+                                      BASE_CMN_FILTER_TYPE_t *filter_type);
+/**
+ * This function is used to set the VLAN Filter Type for specific NPU port
+ * @param npu_id NPU ID
+ * @param port_id port ID
+ * @param filter VLAN Filter Type
+ * @return standard error
+ */
+t_std_error ndi_port_vlan_filter_set (npu_id_t npu_id, npu_port_t port_id,
+                                      BASE_CMN_FILTER_TYPE_t filter);
 
 /**
  *  \}
