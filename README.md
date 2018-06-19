@@ -1,4 +1,4 @@
 # opx-nas-ndi-api
 This repository contains the NDI API definitions of the network abstraction service (NAS). It provides header files that define data structures and prototypes used by NAS modules to access NDI functions.
 
-(c) 2017 Dell EMC
+(c) 2018 Dell Inc. or its subsidiaries. All Rights Reserved.
