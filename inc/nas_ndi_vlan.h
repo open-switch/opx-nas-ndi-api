@@ -204,6 +204,20 @@ t_std_error ndi_set_vlan_learning(npu_id_t npu_id, hal_vlan_id_t vlan_id,
 t_std_error ndi_del_new_member_from_default_vlan(npu_id_t npu_id,
         npu_port_t npu_port, bool del_all);
 
+/**
+ * @brief Set multicast lookup key for VLAN.
+ *
+ * @param npu_id - NPU ID on which look up key is set.
+ * @param vlan_id - VLAN for which look up key is set.
+ * @param af - IPv4 or IPV6 address family.
+ * @param key - look up key value.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+t_std_error ndi_vlan_set_mcast_lookup_key(npu_id_t npu_id, hal_vlan_id_t vlan_id,
+                                          uint32_t af, ndi_vlan_mcast_lookup_key_type_t key);
+
 #ifdef __cplusplus
 }
 #endif
