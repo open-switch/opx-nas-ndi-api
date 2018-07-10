@@ -164,6 +164,12 @@ typedef struct nas_attribute_t {
     size_t len;
 } nas_attribute_t;
 
+typedef enum {
+    NAS_NDI_VLAN_MCAST_LOOKUP_KEY_MACDA,
+    NAS_NDI_VLAN_MCAST_LOOKUP_KEY_XG,
+    NAS_NDI_VLAN_MCAST_LOOKUP_KEY_SG,
+    NAS_NDI_VLAN_MCAST_LOOKUP_KEY_XG_AND_SG
+} ndi_vlan_mcast_lookup_key_type_t;
 
 
 /** callback functions */

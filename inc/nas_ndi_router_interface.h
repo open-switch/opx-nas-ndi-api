@@ -68,6 +68,7 @@ typedef enum {
     NDI_RIF_ATTR_ADMIN_V6_STATE  = (1 << 6), /* Admin V6 state (default TRUE) */
     NDI_RIF_ATTR_MTU            = (1 << 7), /* MTU */
     NDI_RIF_ATTR_IP_REDIRECT    = (1 << 8), /* IP redirect */
+    NDI_RIF_ATTR_VIRTUAL        = (1 << 9), /* Virtual RIF */
     NDI_RIF_ATTR_INVALID        = (1 << 31)
 } ndi_rif_flags;
 
