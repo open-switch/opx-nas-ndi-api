@@ -90,6 +90,49 @@ t_std_error ndi_l2mc_group_add_lag_member(npu_id_t npu_id,
                                            ndi_obj_id_t group_id, ndi_obj_id_t lag_id,
                                            ndi_obj_id_t *member_id_p);
 
+
+/**
+ * @brief Add or delete tunnel port to L2MC Group
+ *
+ * @param npu_id - NPU ID in which to add multicast group member
+ * @param group_id - L2MC Group ID to which tunnel port will be added or deleted.
+ * @param tun_brport_id - Tunnel port's OID .
+ * @param add - true for addtion, false for deletion.
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+t_std_error ndi_l2mc_handle_tunnel_member(npu_id_t npu_id,
+     ndi_obj_id_t group_id, ndi_obj_id_t tun_brport_id, hal_ip_addr_t *rem_ip, bool add);
+
+
+/**
+ * @brief Add or delete lag to L2MC Group
+ *
+ * @param npu_id - NPU ID in which to add multicast group member
+ * @param group_id - L2MC Group ID to which sub port will be added or deleted.
+ * @param lag_id - Lag ID
+ * @param vid - vlan id of the Sub port
+ * @param add - true for addtion, false for deletion.
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_l2mc_handle_lagport_add (npu_id_t npu_id,
+     ndi_obj_id_t group_id, ndi_obj_id_t lag_id, hal_vlan_id_t vid, bool add);
+/**
+ * @brief Add or delete sub port to L2MC Group
+ *
+ * @param npu_id - NPU ID in which to add multicast group member
+ * @param group_id - L2MC Group ID to which sub port will be added or deleted.
+ * @param port_id - Sub port's ID
+ * @param vid - vlan id of the Sub port
+ * @param add - true for addtion, false for deletion.
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_l2mc_handle_subport_add (npu_id_t npu_id,
+           ndi_obj_id_t group_id, port_t port_id, hal_vlan_id_t vid, bool add);
 /**
  * @brief Delete an existing member from L2MC Group
  *
