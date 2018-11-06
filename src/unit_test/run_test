@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+./nas_ndi_api_qos_ut
+./nas_ndi_api_port_ut

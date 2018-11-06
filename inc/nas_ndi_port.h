@@ -38,13 +38,6 @@ extern "C" {
  *  \{
  */
 
-/**
- * Type of packets that would be discarded by NPU port
- */
-typedef enum {
-    NDI_PORT_DROP_UNTAGGED,     /* Port will discard all untagged packets */
-    NDI_PORT_DROP_TAGGED        /* Port will discard all tagged packets */
-} ndi_port_drop_mode_t;
 
 /**
  * This function register port link state callback function with NDI.

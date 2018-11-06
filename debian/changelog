@@ -1,3 +1,20 @@
+opx-nas-ndi-api (7.7.0) unstable; urgency=medium
+
+  * Feature: Static L2 VxLAN Support
+  * Update: Use VLAN id for pv bridge port get
+  * Update: Add API to set bridge port attributes
+  * Update: Add support for virtual RIF attribute as part of RIF configuration
+  * Update: Add support for setting multicast lookup key in VLAN
+  * Update: Add APIs to clear statistics for bridge, bridge port, and tunnel
+  * Update: L2MAC changes for VxLAN, added API for .ID bridge
+  * Update: Add APIs for VxLAN stats, tunnel bridge port stats
+  * Update: Add APIs for L2MAC group add and delete API for LAG in 1d bridges
+  * Update: Add filter value for BRIDGE_TYPE
+  * Update: Add API to control tag/untag packet drop on LAG
+  * Update: Add support for ACL table utilization
+
+ -- Dell EMC <ops-dev@lists.openswitch.net>  Tue, 06 Nov 2018 14:49:02 -0800
+
 opx-nas-ndi-api (7.5.0) unstable; urgency=medium
 
   * Update: Added support for virtual rif attribute as part of RIF configuration.
@@ -52,7 +69,7 @@ opx-nas-ndi-api (6.6.0) unstable; urgency=medium
 opx-nas-ndi-api (5.5.0) unstable; urgency=medium
 
   * Update: Define NDI_RIF_MIN_MTU based on SAI MTU default for RIF
-  * Update: Allow the link local neighbor programming but with NO_HOST flag 
+  * Update: Allow the link local neighbor programming but with NO_HOST flag
            (just to create egress object for routes and not to create an entry in the host table)
   * Update: Added mac move event
   * Update: Update qos queue api's
@@ -67,7 +84,7 @@ opx-nas-ndi-api (5.5.0) unstable; urgency=medium
   * Feature: Added support to set Identification led ON/OFF
   * Bugfix: Miscellaneous bug fixes
   * Cleanup: Miscellaneous cleanup
- 
+
  -- Dell EMC <ops-dev@lists.openswitch.net>  Tue, 20 Jun 2017 14:49:02 -0800
 
 opx-nas-ndi-api (1.0.1) unstable; urgency=medium

@@ -43,6 +43,23 @@ extern "C" {
  */
 typedef  uint32_t   ndi_acl_priority_t;
 typedef  uint16_t   ndi_acl_l4_port_t;
+
+/**
+ * @brief ACL Table data structure passed from NAS to NDI
+ * Contains data for ACL Table provisioning in SAI.
+ */
+typedef struct _ndi_acl_slice_attr {
+    uint32_t                slice_index;
+    uint32_t                pipeline_index;
+    size_t                  used_count;
+    size_t                  avail_count;
+    BASE_ACL_STAGE_t        stage;
+
+    //list of acl table object id's returned as part of get
+    size_t                  acl_table_count;
+    ndi_obj_id_t           *acl_table_list;
+} ndi_acl_slice_attr_t;
+
 /**
  * @brief ACL Table data structure passed from NAS to NDI
  * Contains data for ACL Table provisioning in SAI.
@@ -58,6 +75,25 @@ typedef struct _ndi_acl_table {
     size_t                  action_count;
     BASE_ACL_ACTION_TYPE_t *action_list;
 } ndi_acl_table_t;
+
+
+/**
+ * @brief ACL Table attribute data structure passed from NDI to NAS
+ * Contains data for ACL Table attributes retrieved from SAI.
+ */
+typedef struct _ndi_acl_table_attr {
+
+    //list of acl table used entry count returned as part of get
+    //each entry in this list represent the count for one pipeline.
+    size_t                  acl_table_used_entry_list_count;
+    uint32_t               *acl_table_used_entry_list;
+
+    //list of acl table available entry count returned as part of get
+    //each entry in this list represent the count for one pipeline.
+    size_t                  acl_table_avail_entry_list_count;
+    uint32_t               *acl_table_avail_entry_list;
+} ndi_acl_table_attr_t;
+
 
 /**
  * @brief Type associated with the union data in ndi_acl_entry_filter_t.
@@ -77,6 +113,7 @@ typedef enum {
     NDI_ACL_FILTER_OBJ_ID_LIST,
     NDI_ACL_FILTER_BOOL,
     NDI_ACL_FILTER_U8LIST,
+    NDI_ACL_FILTER_BRIDGE_TYPE,
 } ndi_acl_filter_values_type_t;
 
 /**
@@ -483,6 +520,34 @@ t_std_error ndi_acl_range_create(npu_id_t npu_id, const ndi_acl_range_t *acl_ran
  *  error code is returned.
  */
 t_std_error ndi_acl_range_delete(npu_id_t npu_id, ndi_obj_id_t ndi_range_id);
+
+/**
+ * @brief Retrieve existing ACL Slice usage information
+ *
+ * @param npu_id - NPU ID in which to retrieve
+ * @param slice_id - NDI ID of ACL Slice to be retrieved.
+ * @param[out] slice_attr - ACL Slice attribute information returned from NDI.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_acl_get_slice_attribute (npu_id_t npu_id, ndi_obj_id_t slice_id,
+                                         ndi_acl_slice_attr_t *slice_attr);
+
+/**
+ * @brief Retrieve existing ACL Table usage information
+ *
+ * @param npu_id - NPU ID in which to retrieve
+ * @param table_id - NDI ID of ACL Table to be retrieved.
+ * @param[out] table_attr - ACL Table attribute information returned from NDI.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+
+t_std_error ndi_acl_get_acl_table_attribute (npu_id_t npu_id, ndi_obj_id_t table_id,
+                                             ndi_acl_table_attr_t *table_attr);
 
 /**
  * \}
