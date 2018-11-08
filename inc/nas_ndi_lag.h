@@ -149,6 +149,19 @@ t_std_error ndi_set_lag_learn_mode(npu_id_t npu_id, ndi_obj_id_t ndi_lag_id,
         BASE_IF_MAC_LEARN_MODE_t mode);
 
 /**
+ * This function is used to enable/disable tagged or untagged packet drop mode
+ * for specific Lag
+ * @param npu_id NPU ID
+ * @param lag_id Lag ID
+ * @param mode packet drop mode
+ * @enable enable or disable packet drop mode
+ * @return standard error
+ */
+
+t_std_error ndi_lag_set_packet_drop(npu_id_t npu_id, ndi_obj_id_t ndi_lag_id,
+                                     ndi_port_drop_mode_t mode, bool enable);
+
+/**
 @}
 */
 

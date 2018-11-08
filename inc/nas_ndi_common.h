@@ -52,6 +52,7 @@ extern "C" {
  * BASE_STATS_INTERFACE_IF_t
  */
 typedef uint64_t ndi_stat_id_t;
+typedef uint64_t bridge_id_t;
 
 /**
  * @class NDI Switch operational Status
@@ -64,6 +65,50 @@ typedef enum _ndi_switch_oper_status_t
    NDI_SWITCH_OPER_DOWN,
    NDI_SWITCH_OPER_FAILED,
 } ndi_switch_oper_status_t;
+
+typedef enum _ndi_bridge_packets_type
+{
+    NDI_BRIDGE_PKT_UNICAST,
+    NDI_BRIDGE_PKT_MULTICAST,
+    NDI_BRIDGE_PKT_BROADCAST,
+    NDI_BRIDGE_PKT_ALL
+} ndi_bridge_packets_type_t;
+
+
+typedef enum nas_1d_param
+{
+    VRF_OID,
+    UNDERLAY_OID,
+    BRIDGE_OID,
+} nas_1d_param_t;
+
+/**
+ * Type of packets that would be discarded by NPU port
+ */
+typedef enum {
+    NDI_PORT_DROP_UNTAGGED,     /* Port will discard all untagged packets */
+    NDI_PORT_DROP_TAGGED        /* Port will discard all tagged packets */
+} ndi_port_drop_mode_t;
+
+
+
+typedef enum ndi_port_type{
+    ndi_port_type_PORT=1,
+    ndi_port_type_LAG,
+}ndi_port_type_t;
+
+/* Common typedef for passing id-value pair */
+typedef struct entry {
+    nas_attr_id_t attr_id;
+    void *val;
+    size_t vlen;
+} nas_com_id_value_t;
+
+typedef struct nas_custom_id_value {
+    nas_1d_param_t attr_id;
+    void *val;
+    size_t vlen;
+} nas_custom_id_value_t;
 
 /**
  * @class NDI Port operational Status
@@ -120,6 +165,11 @@ typedef enum _ndi_packet_trap_id_t{
     NDI_PACKET_TRAP_ID_SAMPLEPACKET,
     NDI_PACKET_TRAP_ID_L3_MTU_ERROR
 }ndi_packet_trap_id_t;
+
+typedef struct vrf_underlay_rif {
+    ndi_obj_id_t vrf_oid;
+    ndi_obj_id_t underlay_rif_id;
+}vrf_underlay_rif_t;
 
 
 /**

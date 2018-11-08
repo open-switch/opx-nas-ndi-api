@@ -25,6 +25,7 @@
 
 #include "std_error_codes.h"
 #include "ds_common_types.h"
+#include "nas_types.h"
 
 #include "dell-base-switch-element.h"
 #include <vector>
@@ -33,6 +34,11 @@
 extern "C" {
 #endif
 
+//////////////////////////////////////////////////////////
+//Utilities to convert IDs from NDI to SAI and vice-versa
+/////////////////////////////////////////////////////////
+#define ndi_acl_ndi2sai_slice_id(x)         (sai_object_id_t) (x)
+#define ndi_acl_sai2ndi_slice_id(x)         (ndi_obj_id_t) (x)
 
 /**
  * This union holds all of the possible types used to communicate with the switch
@@ -48,6 +54,10 @@ typedef union {
         uint32_t *     vals;
         size_t         len;
     } list;
+    struct {
+        size_t         len;
+        ndi_obj_id_t *  vals;
+    } obj_list;
     hal_mac_addr_t mac;
 } nas_ndi_switch_param_t ;
 
@@ -137,6 +147,14 @@ t_std_error ndi_switch_get_queue_numbers(npu_id_t npu_id,
  */
 t_std_error ndi_switch_get_max_number_of_scheduler_group_level(npu_id_t npu_id,
                         uint32_t *max_level);
+
+/**
+ * @brief Retrieve switch ACL slice list
+ * @param npu_id - NPU id
+ * @param [out] max_level - max number of levels in HQoS hierarchy
+ * @return STD_ERR_OK on success
+ */
+t_std_error ndi_switch_get_slice_list(npu_id_t npu_id, nas_ndi_switch_param_t *param);
 
 #ifdef __cplusplus
 }
