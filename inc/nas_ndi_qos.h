@@ -392,6 +392,8 @@ typedef struct nas_qos_queue_stat_counter_t {
  * @param number of queue counter types specified
  * @param[out] counter stats
  * return standard error
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_get_extended_queue_statistics()
  */
 t_std_error ndi_qos_get_queue_stats(ndi_port_t ndi_port_id,
                                 ndi_obj_id_t ndi_queue_id,
@@ -405,13 +407,35 @@ t_std_error ndi_qos_get_queue_stats(ndi_port_t ndi_port_id,
  * @param list of queue counter types to query
  * @param number of queue counter types specified
  * @param[out] counters: stats will be stored in the same order of the counter_ids
-  * return standard error
+ * return standard error
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_get_extended_queue_statistics()
+ *
  */
 t_std_error ndi_qos_get_queue_statistics(ndi_port_t ndi_port_id,
                                 ndi_obj_id_t ndi_queue_id,
                                 BASE_QOS_QUEUE_STAT_t *counter_ids,
                                 uint_t number_of_counters,
                                 uint64_t *counters);
+
+/**
+ * This function gets the queue statistics
+ * @param ndi_port_id
+ * @param ndi_queue_id
+ * @param list of queue counter types to query
+ * @param number of queue counter types specified
+ * @param[out] counters: stats will be stored in the same order of the counter_ids
+ * @param counters to clear on read
+ * @param snapshot counters to read
+  * return standard error
+ */
+t_std_error ndi_qos_get_extended_queue_statistics(ndi_port_t ndi_port_id,
+                                ndi_obj_id_t ndi_queue_id,
+                                BASE_QOS_QUEUE_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t *counters,
+                                bool is_read_and_clear,
+                                bool is_snapshot_counters);
 
 /**
  * This function clears the queue statistics
@@ -426,6 +450,20 @@ t_std_error ndi_qos_clear_queue_stats(ndi_port_t ndi_port_id,
                                 BASE_QOS_QUEUE_STAT_t *counter_ids,
                                 uint_t number_of_counters);
 
+/**
+ * This function clears the queue statistics
+ * @param ndi_port_id
+ * @param ndi_queue_id
+ * @param list of queue counter types to clear
+ * @param number of queue counter types specified
+ * @param snapshot counters to clear
+ * return standard error
+ */
+t_std_error ndi_qos_clear_extended_queue_statistics(ndi_port_t ndi_port_id,
+                                ndi_obj_id_t ndi_queue_id,
+                                BASE_QOS_QUEUE_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                bool is_snapshot_counters);
 
 typedef struct qos_scheduler_struct{
     BASE_QOS_SCHEDULING_TYPE_t     algorithm;
@@ -889,7 +927,9 @@ typedef struct nas_qos_buffer_pool_stat_counter_t {
  * @param number of buffer_pool counter types specified
  * @param[out] counter stats
  * return standard error
- */
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_get_extended_buffer_pool_statistics()
+*/
 t_std_error ndi_qos_get_buffer_pool_stats(npu_id_t npu_id,
                                 ndi_obj_id_t ndi_buffer_pool_id,
                                 BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
@@ -904,6 +944,8 @@ t_std_error ndi_qos_get_buffer_pool_stats(npu_id_t npu_id,
  * @param number of buffer_pool counter types specified
  * @param[out] counter stats will be in the same order of the counter_ids.
  * return standard error
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_get_extended_buffer_pool_statistics()
  */
 t_std_error ndi_qos_get_buffer_pool_statistics(npu_id_t npu_id,
                                 ndi_obj_id_t ndi_buffer_pool_id,
@@ -912,18 +954,53 @@ t_std_error ndi_qos_get_buffer_pool_statistics(npu_id_t npu_id,
                                 uint64_t *stats);
 
 /**
+ * This function gets the buffer_pool statistics
+ * @param npu_id
+ * @param ndi_buffer_pool_id
+ * @param list of buffer_pool counter types to query
+ * @param number of buffer_pool counter types specified
+ * @param[out] counters: stats will be stored in the same order of the counter_ids
+ * @param read and clean
+ * @param snapshot counter
+ * return standard error
+ */
+
+t_std_error ndi_qos_get_extended_buffer_pool_statistics(npu_id_t npu_id,
+                                ndi_obj_id_t ndi_buffer_pool_id,
+                                BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t *counters,
+                                bool is_read_and_clear,
+                                bool is_snapshot_counters);
+
+/**
  * This function clears the buffer_pool statistics
  * @param npu_id
  * @param ndi_buffer_pool_id
  * @param list of buffer_pool counter types to clear
  * @param number of buffer_pool counter types specified
  * return standard error
- */
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_clear_extended_buffer_pool_statistics()
+*/
 t_std_error ndi_qos_clear_buffer_pool_stats(npu_id_t npu_id,
                                 ndi_obj_id_t ndi_buffer_pool_id,
                                 BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
                                 uint_t number_of_counters);
 
+/**
+ * This function clears the buffer_pool statistics
+ * @param npu_id
+ * @param ndi_buffer_pool_id
+ * @param list of buffer_pool counter types to clear
+ * @param number of buffer_pool counter types specified
+ * @param snapshot counters
+ * return standard error
+ */
+t_std_error ndi_qos_clear_extended_buffer_pool_statistics(npu_id_t npu_id,
+                                ndi_obj_id_t ndi_buffer_pool_id,
+                                BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
+                                uint_t number_of_counters, bool is_snapshot_counters);
 
 typedef struct ndi_qos_buffer_profile_struct{
     ndi_obj_id_t pool_id;       // pool id for the buffer profile
@@ -1071,6 +1148,8 @@ typedef struct nas_qos_priority_group_stat_counter_t {
  * @param number of priority_group counter types specified
  * @param[out] counter stats
  * return standard error
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_get_extended_priority_group_statistics()
  */
 t_std_error ndi_qos_get_priority_group_stats(ndi_port_t ndi_port_id,
                                 ndi_obj_id_t ndi_priority_group_id,
@@ -1079,17 +1158,53 @@ t_std_error ndi_qos_get_priority_group_stats(ndi_port_t ndi_port_id,
                                 nas_qos_priority_group_stat_counter_t *stats);
 
 /**
+ * This function gets the priority_group statistics
+ * @param ndi_port_id
+ * @param ndi_priority_group_id
+ * @param list of priority_group counter types to query
+ * @param number of priority_group counter types specified
+ * @param[out] counter stats
+ * @param is counter read and clear
+ * @param is snapshot counter
+ * return standard error
+ */
+t_std_error ndi_qos_get_extended_priority_group_statistics(ndi_port_t ndi_port_id,
+                                ndi_obj_id_t ndi_priority_group_id,
+                                BASE_QOS_PRIORITY_GROUP_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t *counters,
+                                bool is_read_and_clear,
+                                bool is_snapshot_counters);
+
+/**
  * This function clears the priority_group statistics
  * @param ndi_port_id
  * @param ndi_priority_group_id
  * @param list of priority_group counter types to clear
  * @param number of priority_group counter types specified
  * return standard error
+ * @deprecated since 7.7.0+opx1
+ * @see ndi_qos_clear_extended_priority_group_statistics()
  */
 t_std_error ndi_qos_clear_priority_group_stats(ndi_port_t ndi_port_id,
                                 ndi_obj_id_t ndi_priority_group_id,
                                 BASE_QOS_PRIORITY_GROUP_STAT_t *counter_ids,
                                 uint_t number_of_counters);
+
+/**
+ * This function clears the priority_group statistics
+ * @param ndi_port_id
+ * @param ndi_priority_group_id
+ * @param list of priority_group counter types to clear
+ * @param number of priority_group counter types specified
+ * @param is snapshot counters
+ * return standard error
+ */
+t_std_error ndi_qos_clear_extended_priority_group_statistics(ndi_port_t ndi_port_id,
+                                ndi_obj_id_t ndi_priority_group_id,
+                                BASE_QOS_PRIORITY_GROUP_STAT_t *counter_ids,
+                                uint_t number_of_counters,
+                                bool is_snapshot_counters);
 
 
 typedef struct ndi_qos_port_pool_struct {
