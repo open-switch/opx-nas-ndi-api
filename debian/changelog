@@ -1,3 +1,9 @@
+opx-nas-ndi-api (7.7.0+opx1) unstable; urgency=medium
+
+  * Feature: Buffer Statistics
+
+ -- Dell EMC <ops-dev@lists.openswitch.net>  Fri, 16 Nov 2018 14:49:02 -0800
+
 opx-nas-ndi-api (7.7.0) unstable; urgency=medium
 
   * Feature: Static L2 VxLAN Support
