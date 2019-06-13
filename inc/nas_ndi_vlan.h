@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -217,6 +217,16 @@ t_std_error ndi_del_new_member_from_default_vlan(npu_id_t npu_id,
  */
 t_std_error ndi_vlan_set_mcast_lookup_key(npu_id_t npu_id, hal_vlan_id_t vlan_id,
                                           uint32_t af, ndi_vlan_mcast_lookup_key_type_t key);
+
+/**
+ * @brief Set default VLAN ID.
+ *
+ * @param npu_id - NPU ID on which look up key is set.
+ * @param vlan_id - Default VLAN ID.
+ *
+ * @return - N/A
+ */
+void ndi_set_default_vlan_id (npu_id_t npu_id, hal_vlan_id_t vlan_id);
 
 #ifdef __cplusplus
 }

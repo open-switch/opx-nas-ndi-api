@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -37,6 +37,15 @@ extern "C" {
 #endif
 
 #define NDI_MAX_MC_GRP_MEMBER_ATTR  2
+
+typedef enum {
+    // Allow multicast packets flooding on all VLAN members
+    NDI_FLOOD_TO_ALL_PORTS,
+    // Disable mulitacast packets flooding
+    NDI_FLOOD_TO_NO_PORT,
+    // Allow multicast packets flooding on members of group
+    NDI_FLOOD_TO_GROUP
+} ndi_flood_restrict_type_t;
 
 /**
  * @brief Create a new L2MC Group in NPU
@@ -143,6 +152,30 @@ t_std_error ndi_l2mc_handle_subport_add (npu_id_t npu_id,
  *  error code is returned.
  */
 t_std_error ndi_l2mc_group_delete_member(npu_id_t npu_id, ndi_obj_id_t member_id);
+
+/**
+ * @brief Configure multicast flood-restrict for specific VLAN
+ *
+ * @param npu_id - NPU ID in which to configure.
+ * @param vid - VLAN ID for which to be configured.
+ * @param restr_type - flood-restrict type applied to VLAN, could be set as allowing multicast packets flooding
+ *                     on all VLAN members, disabling packets flooding, or allowing packets flooding on group
+ *                     members only.
+ * @param group_id - associated group ID to define flooding members, only work with NDI_FLOOD_TO_GROUP type, and
+                     will be ignored for other types.
+ *
+ * @return STD_ERR_OK if operation is successful otherwise a different
+ *  error code is returned.
+ */
+t_std_error ndi_l2mc_set_flood_restrict(npu_id_t npu_id, hal_vlan_id_t vid,
+                                        ndi_flood_restrict_type_t restr_type,
+                                        ndi_obj_id_t group_id);
+/**
+ * @brief Get l2mc vlan and port look enabled for the NPU
+ * @return returns true if its enabled, otherwise false
+ */
+
+bool ndi_l2mc_vlan_port_lookup_enabled_get (void);
 
 #ifdef __cplusplus
 }

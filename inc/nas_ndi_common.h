@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -158,18 +158,21 @@ typedef struct _ndi_byte_list {
 } ndi_byte_list_t;
 
 /**
- * @class NDI PAcket Attribute
+ * @class NDI PAcket Attribute, These will be obsolete in next phase
  */
 typedef enum _ndi_packet_trap_id_t{
-    NDI_PACKET_TRAP_ID_DEFAULT,
-    NDI_PACKET_TRAP_ID_SAMPLEPACKET,
-    NDI_PACKET_TRAP_ID_L3_MTU_ERROR
-}ndi_packet_trap_id_t;
+    NDI_PACKET_TRAP_ID_DEFAULT = 0,
+
+    NDI_PACKET_TRAP_ID_SAMPLEPACKET = 1,
+    NDI_PACKET_TRAP_ID_L3_MTU_ERROR = 2,
+
+    NDI_PACKET_TRAP_ID_MAX,
+} ndi_packet_trap_id_t;
 
 typedef struct vrf_underlay_rif {
     ndi_obj_id_t vrf_oid;
     ndi_obj_id_t underlay_rif_id;
-}vrf_underlay_rif_t;
+} vrf_underlay_rif_t;
 
 
 /**
@@ -180,7 +183,9 @@ typedef enum _ndi_packet_tx_type_t {
      * tx packet goes to the specified output port directly */
     NDI_PACKET_TX_TYPE_PIPELINE_BYPASS,
     /** tx packet goes to the switch ASIC processing pipeline to decide the output port */
-    NDI_PACKET_TX_TYPE_PIPELINE_LOOKUP
+    NDI_PACKET_TX_TYPE_PIPELINE_LOOKUP,
+    /* tx packet goes to the switch ASIC and floods on the .1d bridge using L2MC */
+    NDI_PACKET_TX_TYPE_PIPELINE_HYBRID_BRIDGE
 }ndi_packet_tx_type_t;
 
 
@@ -196,10 +201,12 @@ typedef struct _ndi_packet_attr{
     npu_port_t tx_port;
 
 /** Trap ID */
-    ndi_packet_trap_id_t trap_id;
+    ndi_obj_id_t trap_id;
 
 /** packet transmit type. (MANDATORY_ON_SEND) */
     ndi_packet_tx_type_t tx_type;
+
+    bridge_id_t bridge_id;
 } ndi_packet_attr_t;
 
 typedef struct _hwport_list_t {
@@ -221,6 +228,18 @@ typedef enum {
     NAS_NDI_VLAN_MCAST_LOOKUP_KEY_XG_AND_SG
 } ndi_vlan_mcast_lookup_key_type_t;
 
+typedef enum {
+    /* Read only */
+    NAS_NDI_STATS_MODE_READ,
+    /* Read and clear */
+    NAS_NDI_STATS_MODE_READ_AND_CLEAR,
+
+    /* Sync h/w counters(realtime)*/
+    NAS_NDI_STATS_MODE_SYNC,
+
+    /* Sync h/w counters(realtime) and read */
+    NAS_NDI_STATS_MODE_SYNC_AND_READ,
+} ndi_stats_mode_t;
 
 /** callback functions */
 

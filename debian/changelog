@@ -1,3 +1,16 @@
+opx-nas-ndi-api (8.4.0) unstable; urgency=medium
+
+  * Feature: set vlan Dynamic ARP inspection flag api
+  * Bugfix: nas error seen while copying config
+  * Feature: add api to set the default vlan id
+  * Bugfix: add trap id set trap_grp support, 
+  * Update: re-organize the trap from the acl
+  * Update: changed flood restrict type enums to make them consistent with SAI
+  * Feature: added support for multicast flood restrict feature
+  * Update: copyright year
+
+ -- Dell EMC <ops-dev@lists.openswitch.net>  Wed, 05 Jun 2019 14:49:02 -0800
+
 opx-nas-ndi-api (7.7.0+opx2) unstable; urgency=medium
 
   * Update: copyright information
