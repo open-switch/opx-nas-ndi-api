@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -31,6 +31,7 @@
 #include "ds_common_types.h"
 #include "nas_types.h"
 #include "nas_ndi_common.h"
+#include "nas_ndi_router_interface.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,7 +50,13 @@ typedef struct _ndi_mcast_entry {
     hal_ip_addr_t dst_ip;
     hal_ip_addr_t src_ip;
     ndi_obj_id_t group_id;
+    bool copy_to_cpu;
 } ndi_mcast_entry_t;
+
+typedef enum {
+    NAS_NDI_MCAST_UPD_GRP,
+    NAS_NDI_MCAST_UPD_COPY_TO_CPU
+} ndi_mcast_update_type_t;
 
 /**
  * @brief Create a new Multicast Entry in NPU
@@ -72,6 +79,39 @@ t_std_error ndi_mcast_entry_create(npu_id_t npu_id, const ndi_mcast_entry_t *mc_
  *  error code is returned.
  */
 t_std_error ndi_mcast_entry_delete(npu_id_t npu_id, const ndi_mcast_entry_t *mc_entry_p);
+
+t_std_error ndi_mcast_entry_update(npu_id_t npu_id, const ndi_mcast_entry_t *mc_entry_p,
+                                   ndi_mcast_update_type_t upd_type);
+
+typedef enum {
+    NAS_NDI_IPMC_ENTRY_TYPE_XG,
+    NAS_NDI_IPMC_ENTRY_TYPE_SG
+} ndi_ipmc_entry_type_t;
+
+typedef enum {
+    NAS_NDI_IPMC_UPD_REPL_GRP,
+    NAS_NDI_IPMC_UPD_COPY_TO_CPU
+} ndi_ipmc_update_type_t;
+
+typedef struct _ndi_ipmc_entry_s {
+    ndi_vrf_id_t vrf_id;
+    ndi_ipmc_entry_type_t type;
+    hal_ip_addr_t dst_ip;
+    hal_ip_addr_t src_ip;
+    ndi_obj_id_t repl_group_id;
+    bool copy_to_cpu;
+    bool route_hit; //read-only
+    ndi_rif_id_t iif_rif_id; //RIF ID of routes Incoming Interface
+} ndi_ipmc_entry_t;
+
+t_std_error ndi_ipmc_entry_create(npu_id_t npu_id, const ndi_ipmc_entry_t *ipmc_entry_p);
+
+t_std_error ndi_ipmc_entry_delete(npu_id_t npu_id, const ndi_ipmc_entry_t *ipmc_entry_p);
+
+t_std_error ndi_ipmc_entry_update(npu_id_t npu_id, const ndi_ipmc_entry_t *ipmc_entry_p,
+                                  ndi_ipmc_update_type_t upd_type);
+
+t_std_error ndi_ipmc_entry_get(npu_id_t npu_id, ndi_ipmc_entry_t *ipmc_entry_p);
 
 #ifdef __cplusplus
 }

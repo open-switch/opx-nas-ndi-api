@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -164,6 +164,16 @@ t_std_error ndi_lag_set_packet_drop(npu_id_t npu_id, ndi_obj_id_t ndi_lag_id,
 /**
 @}
 */
+
+/** This function is used to set the resilient attributes hash configuration 
+ * for LAG.
+ * @param npu_id npu id
+ * @param ndi_lag_id LAG id 
+ * @param boolean, if resilient hash is enabled or disabled
+ * @return standard error
+ */
+t_std_error ndi_set_lag_resilient_hash(npu_id_t npu_id, 
+                                        ndi_obj_id_t ndi_lag_id, bool enabled);
 
 #ifdef __cplusplus
 }

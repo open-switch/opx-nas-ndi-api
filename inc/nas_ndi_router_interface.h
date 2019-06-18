@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -49,7 +49,8 @@ typedef ndi_obj_id_t  ndi_vrf_id_t;
 typedef enum {
     NDI_RIF_TYPE_PORT,        /* RIF type Port */
     NDI_RIF_TYPE_VLAN,        /* RIF type Vlan */
-    NDI_RIF_TYPE_LAG          /* RIF type Lag  */
+    NDI_RIF_TYPE_LAG,         /* RIF type Lag  */
+    NDI_RIF_TYPE_DOT1D_BRIDGE /* RIF type .1D bridge */
 } ndi_rif_type;
 
 /*
@@ -69,6 +70,8 @@ typedef enum {
     NDI_RIF_ATTR_MTU            = (1 << 7), /* MTU */
     NDI_RIF_ATTR_IP_REDIRECT    = (1 << 8), /* IP redirect */
     NDI_RIF_ATTR_VIRTUAL        = (1 << 9), /* Virtual RIF */
+    NDI_RIF_ATTR_PIMV2_STATE  = (1 << 10), /* PIMV2 state (default FALSE) */
+    NDI_RIF_ATTR_PIMV6_STATE  = (1 << 11), /* PIMV6 state (default FALSE) */
     NDI_RIF_ATTR_INVALID        = (1 << 31)
 } ndi_rif_flags;
 
@@ -92,11 +95,14 @@ typedef struct ndi_rif_entry_s {
         ndi_port_t          port_id;
         hal_vlan_id_t       vlan_id;
         ndi_obj_id_t        lag_id;
+        nas_bridge_id_t     bridge_id;
     } attachment;
     /** Optional RIF attributes */
     hal_mac_addr_t          src_mac;
     bool                    v4_admin_state;
     bool                    v6_admin_state;
+    bool                    pimv2_state;
+    bool                    pimv6_state;
     bool                    ip_redirect_state;
     uint_t                  mtu;
 } ndi_rif_entry_t;
@@ -167,6 +173,9 @@ typedef enum {
     /* Action for Packets with IP options [ndi_route_action]
      * (default to NDI_ROUTE_PACKET_ACTION_TRAPCPU) */
     NDI_VR_ATTR_VIOLATION_IP_OPTIONS = (1 << 4),
+    NDI_VR_ATTR_MCAST_ADMIN_V4_STATE  = (1 << 5), /* MCAST Admin V4 state (default FALSE) */
+    NDI_VR_ATTR_MCAST_ADMIN_V6_STATE  = (1 << 6), /* MCAST Admin V6 state (default FALSE) */
+
     NDI_VR_ATTR_INVALID        = (1 << 31)
 } ndi_vr_flags;
 
@@ -186,6 +195,8 @@ typedef struct ndi_vr_entry_s {
     ndi_vr_flags            flags;        /* NDI VR flags */
     bool                    v4_admin_state;  /* on by default */
     bool                    v6_admin_state; /* on by default */
+    bool                    v4_mcast_admin_state;  /* off by default */
+    bool                    v6_mcast_admin_state;  /* off by default */
     int32_t                 ttl1_action;
     int32_t                 violation_ip_options;
 } ndi_vr_entry_t;

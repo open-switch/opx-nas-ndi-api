@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -133,6 +133,7 @@ typedef enum {
     NDI_ACL_ACTION_U16,
     NDI_ACL_ACTION_U8,
     NDI_ACL_ACTION_PKT_COLOR,
+    NDI_ACL_ACTION_U64,
 } ndi_acl_action_values_type_t;
 
 /**
@@ -498,6 +499,7 @@ typedef struct _ndi_acl_range {
     uint32_t max;
 } ndi_acl_range_t;
 
+
 /**
  * @brief Create a new ACL range in NPU
  *
@@ -520,6 +522,7 @@ t_std_error ndi_acl_range_create(npu_id_t npu_id, const ndi_acl_range_t *acl_ran
  *  error code is returned.
  */
 t_std_error ndi_acl_range_delete(npu_id_t npu_id, ndi_obj_id_t ndi_range_id);
+
 
 /**
  * @brief Retrieve existing ACL Slice usage information

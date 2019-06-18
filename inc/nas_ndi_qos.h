@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -411,6 +411,7 @@ t_std_error ndi_qos_get_queue_stats(ndi_port_t ndi_port_id,
  * @deprecated since 7.7.0+opx1
  * @see ndi_qos_get_extended_queue_statistics()
  *
+  * return standard error
  */
 t_std_error ndi_qos_get_queue_statistics(ndi_port_t ndi_port_id,
                                 ndi_obj_id_t ndi_queue_id,
@@ -434,7 +435,7 @@ t_std_error ndi_qos_get_extended_queue_statistics(ndi_port_t ndi_port_id,
                                 BASE_QOS_QUEUE_STAT_t *counter_ids,
                                 uint_t number_of_counters,
                                 uint64_t *counters,
-                                bool is_read_and_clear,
+                                ndi_stats_mode_t ndi_stats_mode,
                                 bool is_snapshot_counters);
 
 /**
@@ -970,7 +971,7 @@ t_std_error ndi_qos_get_extended_buffer_pool_statistics(npu_id_t npu_id,
                                 BASE_QOS_BUFFER_POOL_STAT_t *counter_ids,
                                 uint_t number_of_counters,
                                 uint64_t *counters,
-                                bool is_read_and_clear,
+                                ndi_stats_mode_t ndi_stats_mode,
                                 bool is_snapshot_counters);
 
 /**
@@ -1173,7 +1174,7 @@ t_std_error ndi_qos_get_extended_priority_group_statistics(ndi_port_t ndi_port_i
                                 BASE_QOS_PRIORITY_GROUP_STAT_t *counter_ids,
                                 uint_t number_of_counters,
                                 uint64_t *counters,
-                                bool is_read_and_clear,
+                                ndi_stats_mode_t ndi_stats_mode,
                                 bool is_snapshot_counters);
 
 /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -156,6 +156,18 @@ t_std_error ndi_switch_get_max_number_of_scheduler_group_level(npu_id_t npu_id,
  */
 t_std_error ndi_switch_get_slice_list(npu_id_t npu_id, nas_ndi_switch_param_t *param);
 
+/**
+ * This function gets switch statistics
+ * @param ndi_id
+ * @param list of switch stats types to query
+ * @param number of switch stats types specified
+ * @param[out] counters: stats will be stored in the same order of the counter_ids
+ * return standard error
+ */
+ t_std_error ndi_switch_get_statistics(npu_id_t npu_id,
+                                BASE_SWITCH_SWITCHING_ENTITIES_SWITCH_STATS_t *counter_ids,
+                                uint_t number_of_counters,
+                                uint64_t *counters);
 #ifdef __cplusplus
 }
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Dell Inc.
+ * Copyright (c) 2019 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -223,9 +223,10 @@ t_std_error ndi_route_next_hop_delete (npu_id_t npu_id, next_hop_id_t nh_handle)
  *
  */
 typedef enum {
-    NDI_ROUTE_NH_GROUP_ATTR_NEXT_HOP_COUNT = (1 << 0),  /* NH count */
-    NDI_ROUTE_NH_GROUP_ATTR_TYPE           = (1 << 1),        /* Group type */
+    NDI_ROUTE_NH_GROUP_ATTR_NEXT_HOP_COUNT = (1 << 0), /* NH count */
+    NDI_ROUTE_NH_GROUP_ATTR_TYPE           = (1 << 1), /* Group type */
     NDI_ROUTE_NH_GROUP_ATTR_NEXT_HOP_LIST  = (1 << 2), /* NH list*/
+    NDI_ROUTE_NH_GROUP_RESILIENT_HASH      = (1 << 3), /* Resilient Hash */
     NDI_ROUTE_NH_GROUP_ATTR_INVALID        = (1 << 31)
 } ndi_route_group_nh_flags;
 /*
@@ -262,6 +263,7 @@ typedef struct ndi_nh_group_s {
     } nh_list[NDI_MAX_NH_ENTRIES_PER_GROUP];
     uint32_t                nhop_count;      /* NH count */
     next_hop_id_t           nh_group_handle; /* Nexthop group handle */
+    bool                    res_hash;        /* resilient hash */
 } ndi_nh_group_t;
 
 
